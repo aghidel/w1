@@ -1,4 +1,7 @@
 import pymysql.cursors
+import socket
+
+
 
 class Database:
     connectionHandler = []
@@ -229,8 +232,14 @@ class Database:
         self.cursor.execute(query)
         self.connectionHandler.commit()
 
+if socket.gethostname() == 'Ady-cluster':
+    db = 'db1'
+    passw = 'zz'
+else:
+    db = 'db'
+    passw = 'a'
 
-mydb = Database('localhost', 'root', 'a', 'db', pymysql.cursors.DictCursor)
+mydb = Database('localhost', 'root', passw, db , pymysql.cursors.DictCursor)
 mydb.insert('record', ('name', 'birthday', 'grade'), ('jomby', '1990-01-01', '4'))
 mydb.insert('record', ('name', 'birthday', 'grade'), ('jony', '1990-01-01', '4'))
 mydb.displayEntriesCondition('record', 'name', 'jonny')
@@ -242,6 +251,6 @@ mydb.updateRowCondition('record', 'id', '5', "name='adi2'")
 mydb.createTable("peNis", "aa", "aa varchar(20)", "bb int NOT NULL")
 mydb.deleteTable("peNis")
 mydb.delete('record', 'name', 'jony')
-mydb.delete('record', ('name', 'birthday', 'grade'), ('jomby', '1990-01-01', '4')mydb.isConnected())
+mydb.delete('record', ('name', 'birthday', 'grade'), ('jomby', '1990-01-01', '4'))
 mydb.disconnectDataBase()
 print(mydb.isConnected())
